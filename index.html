@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Santhosh James Portfolio</title>
+    <style>
+      :root {
+        --bg-light: #f4f4f4;
+        --bg-dark: #1e1e2f;
+        --primary: #3498db;
+        --secondary: #2ecc71;
+        --accent: #f39c12;
+        --text-dark: #333;
+        --text-light: #fff;
+        --card-bg: #fff;
+        --shadow-light: rgba(0, 0, 0, 0.1);
+        --shadow-dark: rgba(0, 0, 0, 0.2);
+        --hover-bg: #e6f2ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        transition: background-color 0.5s ease;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        scroll-behavior: smooth;
+      }
+
+      header {
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        padding: 1.2rem 0;
+        text-align: center;
+        user-select: none;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 3px 10px var(--shadow-dark);
+      }
+
+      header h1 {
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: 1.1px;
+        font-size: 2.2rem;
+      }
+
+      nav {
+        margin-top: 0.7rem;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        margin: 0;
+        padding: 0;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      nav ul li {
+        position: relative;
+      }
+
+      nav ul li a {
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.3rem 0;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+      /* Underline animation */
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: var(--accent);
+        transition: width 0.3s ease;
+        border-radius: 2px;
+      }
+
+      nav ul li a:hover,
+      nav ul li a:focus {
+        color: var(--accent);
+      }
+
+      nav ul li a:hover::after,
+      nav ul li a:focus::after {
+        width: 100%;
+      }
+
+      nav ul li a:active {
+        color: var(--secondary);
+      }
+
+      section {
+        max-width: 1100px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+      }
+
+      section:hover {
+        box-shadow: 0 8px 24px var(--shadow-dark);
+        background-color: var(--hover-bg);
+        cursor: default;
+      }
+
+      /* About */
+      #about {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        background: var(--card-bg);
+        padding: 1.8rem 2rem;
+        box-shadow: 0 4px 16px var(--shadow-light);
+        border-radius: 12px;
+        transition: box-shadow 0.3s ease;
+      }
+
+      #about:hover {
+        box-shadow: 0 8px 24px var(--shadow-dark);
+      }
+
+      #about {
+        perspective: 1000px; /* Creates 3D space */
+      }
+      
+      .flip-card {
+        width: 130px;
+        height: 130px;
+        position: relative;
+        transition: transform 0.6s ease;
+        
+        cursor: pointer;
+      }
+      
+      .flip-card:hover {
+        transform: rotateY(180deg);
+      }
+      
+      .profile-photo {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary);
+        position: absolute;
+        top: 0;
+        left: 0;
+        backface-visibility: hidden;
+      }
+      
+      /* Back side is flipped */
+      .profile-photo.back {
+        transform: rotateY(180deg);
+      }
+      
+      #about p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        flex: 1 1 350px;
+        color: var(--text-dark);
+      }
+
+      #about p .highlight {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 2rem;
+        margin-right: 0.3rem;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      /* Skills */
+      #skills {
+        background: var(--card-bg);
+        padding: 2rem 2rem 2rem 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px var(--shadow-light);
+      }
+
+      #skills:hover {
+        box-shadow: 0 8px 24px var(--shadow-dark);
+        background-color: var(--hover-bg);
+      }
+
+      #skills h2 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        color: var(--primary);
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .skill-section {
+        background: var(--secondary);
+        color: white;
+        border-radius: 10px;
+        padding: 1rem 1.3rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease,
+          transform 0.3s ease;
+        cursor: default;
+        user-select: none;
+      }
+
+      .skill-section:hover {
+        background: var(--accent);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        transform: translateY(-5px);
+        cursor: pointer;
+      }
+
+      .skill-section h3 {
+        margin-top: 0;
+        margin-bottom: 0.7rem;
+        font-weight: 700;
+      }
+
+      .skill-section ul {
+        padding-left: 1.2rem;
+        margin: 0;
+        list-style-type: disc;
+      }
+
+      /* Education & Contact container for side by side */
+      #edu-contact-container {
+        display: flex;
+        gap: 3rem;
+        max-width: 1100px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+        flex-wrap: wrap;
+      }
+
+      #education,
+      #contact {
+        flex: 1 1 400px;
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px var(--shadow-light);
+        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        cursor: default;
+        user-select: none;
+      }
+
+      #education:hover,
+      #contact:hover {
+        box-shadow: 0 8px 24px var(--shadow-dark);
+        background-color: var(--hover-bg);
+      }
+
+      #education h2,
+      #contact h2 {
+        margin-top: 0;
+        color: var(--primary);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .education-entry {
+        margin-bottom: 25px;
+        background: #fff;
+        padding: 1rem 1.2rem;
+        border-radius: 8px;
+        border-left: 6px solid var(--primary);
+        box-shadow: 0 3px 8px var(--shadow-light);
+        transition: all 0.3s ease;
+        cursor: default;
+      }
+
+      .education-entry:hover {
+        transform: translateY(-6px);
+        background-color: var(--hover-bg);
+        border-left-color: var(--accent);
+        box-shadow: 0 8px 16px var(--shadow-dark);
+        cursor: pointer;
+      }
+
+      .education-entry p {
+        margin: 4px 0;
+        font-size: 0.95rem;
+        color: var(--text-dark);
+        line-height: 1.3;
+      }
+
+      /* Contact details */
+      #contact p {
+        font-size: 1.1rem;
+        margin: 0.4rem 0;
+      }
+
+      #contact a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      #contact a:hover,
+      #contact a:focus {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      #contact ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 1rem;
+        display: flex;
+        gap: 1.2rem;
+        flex-wrap: wrap;
+      }
+
+      #contact ul li a {
+        font-weight: 600;
+        color: var(--primary);
+        text-decoration: none;
+        background: var(--hover-bg);
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px var(--shadow-light);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        display: inline-block;
+      }
+
+      #contact ul li a:hover {
+        background: var(--accent);
+        color: white;
+        box-shadow: 0 4px 12px var(--shadow-dark);
+      }
+
+      /* Layout */
+      #edu-contact-container {
+        display: flex;
+        gap: 3rem;
+        max-width: 1100px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+        flex-wrap: wrap;
+      }
+
+      /* Sidebar (Hobbies + Contact stacked) */
+      #sidebar-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex: 1 1 400px;
+      }
+
+      /* Reuse existing styles */
+      #education,
+      #hobbies,
+      #contact {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px var(--shadow-light);
+        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        cursor: default;
+        user-select: none;
+      }
+
+      /* Hover Effects */
+      #education:hover,
+      #hobbies:hover,
+      #contact:hover {
+        box-shadow: 0 8px 24px var(--shadow-dark);
+        background-color: var(--hover-bg);
+      }
+
+      /* Section Headings */
+      #education h2,
+      #hobbies h2,
+      #contact h2 {
+        margin-top: 0;
+        color: var(--primary);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      #sidebar-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex: 1 1 400px;
+        height: 100%;
+        max-width: 500px; /* Optional: Control max width */
+      }
+
+      /* Equal height and width for hobbies and contact */
+      #hobbies,
+      #contact {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      /* Hobbies list */
+      #hobbies ul {
+        padding-left: 1.2rem;
+        font-size: 1.05rem;
+        color: var(--text-dark);
+      }
+
+      #hobbies ul li {
+        margin-bottom: 0.6rem;
+        list-style-type: disc;
+      }
+      .project-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      /* Screenshots container */
+      .screenshots {
+        position: relative;
+        width: 70%;
+        margin: 0 auto; /* center horizontally */
+        height: auto;
+        max-height: 0;
+        overflow: hidden;
+        border-radius: 10px;
+        opacity: 0;
+        transition: max-height 0.4s ease, opacity 0.4s ease;
+        pointer-events: none;
+      }
+      
+      /* Show screenshots on hover */
+      .project-card:hover .screenshots {
+        opacity: 1;
+        max-height: 220px;
+        pointer-events: auto;
+      }
+      
+      /* Track holding the images */
+      .screenshots-track {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        transform: translateX(0);
+        transition: transform 0.5s ease-in-out;
+        animation: scroll-carousel 24s linear infinite;
+        animation-play-state: paused;
+      }
+      
+      /* Animate only on hover */
+      .project-card:hover .screenshots-track {
+        animation-play-state: running;
+      }
+     
+      
+      /* Image styling */
+      .screenshots {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        height: 300px;
+        margin: auto;
+        overflow: hidden;
+      }
+      
+      .screenshots-track {
+        display: flex;
+        align-items: center;
+        transition: transform 0.5s ease;
+      }
+      
+      .screenshots img {
+        width: 220px;
+        height: 150px;
+        margin: 0 20px;
+        object-fit: contain;
+        opacity: 0.5;
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+      
+      .screenshots img.active {
+        width: 510px;
+        height: 340px;
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 1;
+      }
+      
+      
+      
+      /* Arrow buttons */
+      .carousel-nav {
+        position: absolute;
+        top: 70%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: none;
+      }
+      
+      .project-card:hover .carousel-nav {
+        display: block;
+      }
+      
+      .carousel-nav.left {
+        left: 6px;
+      }
+      
+      .carousel-nav.right {
+        right: 6px;
+      }
+      
+      /* Extra description BELOW the image */
+      .hover-description {
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        line-height: 1.4;
+        display: none;
+      }
+      
+      .project-card:hover .hover-description {
+        display: block;
+      }
+
+      .certificate-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: center;
+      }
+
+      .certificate-item {
+        width: 230px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px var(--shadow-light);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        cursor: default;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+      }
+
+      .certificate-item:hover {
+        box-shadow: 0 12px 32px var(--shadow-dark);
+        transform: scale(1.35); /* Increased scale on hover */
+        cursor: pointer;
+      }
+
+      .certificate-item img {
+        width: 100%;
+        height: 120px;
+        object-fit: contain;
+        background: #f9f9f9;
+        border-bottom: 2px solid var(--primary);
+        pointer-events: none;
+      }
+
+      .certificate-item p {
+        margin: 0.8rem 1rem 1rem 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-dark);
+        text-align: center;
+        flex-grow: 1;
+        user-select: text;
+      }
+
+      /* Responsive tweaks */
+      @media (max-width: 768px) {
+        #about {
+          flex-direction: column;
+          text-align: center;
+        }
+        #about img.profile-photo {
+          margin: 0 auto;
+        }
+
+        #edu-contact-container {
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        nav ul {
+          gap: 1.6rem;
+          font-size: 1rem;
+        }
+      }
+
+      .resume-btn {
+        flex: 1;
+        text-align: center;
+        background: linear-gradient(135deg, #4f46e5, #3b82f6);
+        color: #fff;
+        font-weight: 700;
+        padding: 14px 0;
+        border-radius: 12px;
+        text-decoration: none;
+        box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        user-select: none;
+        font-size: 1.1rem;
+      }
+    
+      .resume-btn:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 12px 24px rgba(59, 130, 246, 0.5);
+      }
+    
+      .view-online {
+        background: linear-gradient(135deg, #10b981, #047857);
+        box-shadow: 0 6px 15px rgba(5, 150, 105, 0.3);
+      }
+    
+      .view-online:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 12px 24px rgba(5, 150, 105, 0.5);
+      }
+      .github-button {
+        display: inline-block;
+        padding: 10px 18px;
+        background-color: #24292e;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.95em;
+        margin: 10px 0 20px 0;
+        transition: background-color 0.3s ease;
+        max-width: 200px;       /* Limits the width */
+        white-space: nowrap;    /* Prevents text wrapping */
+        overflow: hidden;       /* Hides overflow text if any */
+        text-overflow: ellipsis;/* Adds "..." if content overflows */
+      }
+      
+      .github-button:hover {
+        background-color: #0366d6;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Santhosh James</h1>
+      <nav>
+        <ul>
+          <li><a href="#about" tabindex="1">About</a></li>
+          <li><a href="#skills" tabindex="2">Skills</a></li>
+          <li><a href="#education" tabindex="3">Education</a></li>
+          <li><a href="#projects" tabindex="4">Projects</a></li>
+          <li><a href="#certificates" tabindex="5">Certificates</a></li>
+          <li><a href="#volunteering" tabindex="5">volunteering</a></li>
+          
+          <li><a href="#contact" tabindex="6">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="about" tabindex="0" aria-label="About section" style="max-width: 700px; margin: 40px auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+     
+        <div id="about">
+          <div class="flip-card">
+            <img src="sant.jpg" alt="Santhosh James" class="profile-photo front" />
+            <img src="sant.jpg" alt="Santhosh James" class="profile-photo back" />
+          </div>
+        </div>
+        
+      
+        <p style="font-size: 1.1rem; line-height: 1.5; color: #222;">
+          <span class="highlight" style="font-weight: 700; color: #4f46e5;">Hi!</span> I’m Santhosh James C, a CSE BTech graduate and creative software developer looking for new opportunities. Check out my website to see more about me!
+        </p>
+      
+        <section aria-label="Resume download and view options" style="margin-top: 40px;">
+          <p style="font-size: 1.3rem; font-weight: 700; margin-bottom: 20px; color: #222;">
+            Download my resume or check it out online!
+          </p>
+          
+          <div style="display: flex; gap: 20px;">
+            <a href="https://drive.google.com/uc?export=download&id=1dypHCAGN4pYrKykqXjILMzW_dNJ9MBMQ" 
+               download 
+               class="resume-btn"
+               aria-label="Download Resume">
+              Download Resume
+            </a>
+        
+            <a href="https://drive.google.com/file/d/1dypHCAGN4pYrKykqXjILMzW_dNJ9MBMQ/view?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="resume-btn view-online"
+               aria-label="View Resume Online">
+              View Online
+            </a>
+          </div>
+        </section>
+      </section>
+      <section id="skills" tabindex="0" aria-label="Skills section">
+        <br><br><br> <h2>Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-section" aria-labelledby="programming-languages">
+            <h3 id="programming-languages">Programming Languages</h3>
+            <ul>
+              <li>Python</li>
+              <li>C Programming</li>
+              <li>JavaScript</li>
+              <li>Java</li>
+            </ul>
+          </div>
+
+          <div class="skill-section" aria-labelledby="web-development">
+            <h3 id="web-development">Web Development</h3>
+            <ul>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>Node.js</li>
+              <li>Django</li>
+              <li>ReactJs</li>
+            </ul>
+          </div>
+
+          <div class="skill-section" aria-labelledby="libraries-frameworks">
+            <h3 id="libraries-frameworks">Libraries & Frameworks</h3>
+            <ul>
+              <li>OpenCV</li>
+              <li>Tkinter</li>
+              <li>Pandas</li>
+              <li>Haar Cascade</li>
+              <li>Siamese Neural Network</li>
+            </ul>
+          </div>
+
+          <div class="skill-section" aria-labelledby="databases">
+            <h3 id="databases">Databases</h3>
+            <ul>
+              <li>MySQL</li>
+            </ul>
+          </div>
+
+          <div class="skill-section" aria-labelledby="tools-software">
+            <h3 id="tools-software">Tools & Software</h3>
+            <ul>
+              <li>GitHub</li>
+              <li>Adobe Photoshop</li>
+              <li>Adobe Premiere Pro</li>
+              <li>Canva</li>
+              <li>VS code</li>
+            </ul>
+          </div>
+          <div class="skill-section" aria-labelledby="soft-skills">
+            <h3 id="soft-skills">Soft Skills</h3>
+            <ul>
+              <li>Teamwork</li>
+              <li>Problem Solving</li>
+              <li>Critical Thinking</li>
+              <li>Communication</li>
+              <li>Leadership</li>
+              <li>Creativity</li>
+            </ul>
+          </div>
+          <div class="skill-section" aria-labelledby="common-languages">
+            <h3 id="common-languages">Communication Languages</h3>
+            <ul>
+              <li>Malayalam</li>
+              <li>English</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <script>
+        // Map to keep track of current index for each carousel
+        const carouselIndexes = new Map();
+      
+        function centerActiveImage(track, activeImage) {
+          const container = track.closest('.screenshots');
+          const containerWidth = container.offsetWidth;
+          const trackWidth = track.scrollWidth;
+      
+          const imageCenter = activeImage.offsetLeft + activeImage.offsetWidth / 2;
+          let scrollTo = imageCenter - containerWidth / 2;
+      
+          // Clamp scrollTo so it doesn't scroll beyond track edges
+          scrollTo = Math.max(0, Math.min(scrollTo, trackWidth - containerWidth));
+      
+          track.style.transform = `translateX(-${scrollTo}px)`;
+        }
+      
+        function updateActiveImage(track, currentIndex) {
+          const images = track.querySelectorAll('img');
+      
+          // Remove active class from all
+          images.forEach(img => img.classList.remove('active'));
+      
+          // Add active to current
+          images[currentIndex].classList.add('active');
+      
+          centerActiveImage(track, images[currentIndex]);
+        }
+      
+        function scrollScreenshots(button, direction) {
+          const screenshots = button.closest('.screenshots');
+          const track = screenshots.querySelector('.screenshots-track');
+          const images = track.querySelectorAll('img');
+          const totalImages = images.length;
+      
+          // Use the track element as key to store index
+          let currentIndex = carouselIndexes.get(track) ?? 0;
+      
+          // Update currentIndex with circular logic
+          currentIndex = (currentIndex + direction + totalImages) % totalImages;
+      
+          carouselIndexes.set(track, currentIndex);
+      
+          updateActiveImage(track, currentIndex);
+        }
+      
+        // Initialize all carousels on page load
+        window.addEventListener('DOMContentLoaded', () => {
+          document.querySelectorAll('.screenshots').forEach(screenshots => {
+            const track = screenshots.querySelector('.screenshots-track');
+            carouselIndexes.set(track, 0); // start at first image
+            updateActiveImage(track, 0);
+          });
+        });
+      </script>
+      
+      
+      
+      
+      
+      
+
+      <section id="projects" tabindex="0" aria-label="Projects section">
+        <br><br><br><h2>Projects</h2>
+        <div class="projects-grid">
+      
+          <!-- Trinetra Project -->
+          <article class="project-card" tabindex="0" aria-label="Trinetra – Missing Person Detection System project">
+            <h3>Trinetra – Missing Person Detection System</h3>
+            <a href="https://github.com/santhoshjamesc/TRINETRA" class="github-button" target="_blank">🔗 View on GitHub</a>
+            <p class="project-description">
+              Using Python, OpenCV, Haar Cascade, Tkinter, Siamese Neural Network.
+            </p>
+      
+            <div class="screenshots" aria-label="Screenshots of Trinetra project">
+              <div class="screenshots-track">
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-03-18%20151001.png?raw=true" alt="Trinetra screenshot 1" class="active" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-03-18%20151113.png?raw=true" alt="Trinetra screenshot 2" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-03-18%20151445.png?raw=true" alt="Trinetra screenshot 3" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-04-03%20184637.png?raw=true" alt="Trinetra screenshot 4" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-04-03%20184705.png?raw=true" alt="Trinetra screenshot 5" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-04-03%20184900.png?raw=true" alt="Trinetra screenshot 6" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/Screenshot%202025-05-12%20155315.png?raw=true" alt="Trinetra screenshot 7" />
+                <img src="https://github.com/santhoshjamesc/TRINETRA/blob/main/screenshots/WhatsApp%20Image%202025-03-16%20at%2020.47.34_18a815b3.jpg?raw=true" alt="Trinetra screenshot 8" />
+              </div>
+              <button class="carousel-nav left" onclick="scrollScreenshots(this, -1)">‹</button>
+              <button class="carousel-nav right" onclick="scrollScreenshots(this, 1)">›</button>
+            </div>
+      
+            <div class="hover-description">
+              Trinetra is an advanced AI-powered missing person detection system that leverages a Siamese Neural Network to compare and identify facial features from surveillance footage or uploaded images. It integrates Haar Cascade classifiers for real-time face detection and is implemented using OpenCV for computer vision tasks. The system includes a user-friendly Tkinter-based GUI for accessibility and is capable of generating custom datasets for model training. Designed with dual-verification mechanisms, it minimizes false positives and can operate in both real-time webcam mode and static image analysis. Trinetra is ideal for use by law enforcement agencies and NGOs in time-sensitive search and rescue operations.
+            </div>
+      
+            
+          </article>
+      
+          <!-- Football Turf Booking Website -->
+          <article class="project-card" tabindex="0" aria-label="Football Turf Booking Website project">
+            <h3>Football Turf Booking Website</h3>
+            <a href="https://github.com/santhoshjamesc/turfsfinder" class="github-button" target="_blank">🔗 View on GitHub</a>
+            <p class="project-description">
+              Using HTML, CSS, JavaScript, MySQL, and Node.js.
+            </p>
+      
+            <div class="screenshots" aria-label="Screenshots of Football Turf Booking Website">
+              <div class="screenshots-track">
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20161738.png?raw=true" alt="Football Turf Booking Website screenshot 1" class="active" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20161751.png?raw=true" alt="Football Turf Booking Website screenshot 2" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20161959.png?raw=true" alt="Football Turf Booking Website screenshot 3" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20162513.png?raw=true" alt="Football Turf Booking Website screenshot 4" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20162502.png?raw=true" alt="Football Turf Booking Website screenshot 5" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20162242.png?raw=true" alt="Football Turf Booking Website screenshot 6" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20162415.png?raw=true" alt="Football Turf Booking Website screenshot 7" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20162400.png?raw=true" alt="Football Turf Booking Website screenshot 8" />
+                <img src="https://github.com/santhoshjamesc/turfsfinder/blob/main/SCREENSHOTS/Screenshot%202025-06-06%20164502.png?raw=true" alt="Football Turf Booking Website screenshot 9" />
+              </div>
+              <button class="carousel-nav left" onclick="scrollScreenshots(this, -1)">‹</button>
+              <button class="carousel-nav right" onclick="scrollScreenshots(this, 1)">›</button>
+            </div>
+      
+            <div class="hover-description">
+              This Football Turf Booking Website is a full-stack platform built using Node.js and MySQL for the backend and HTML, CSS, and JavaScript for the frontend. It supports two user roles: turf owners and players. Turf owners can create, update, and delete listings for available turfs, while players can browse turf details, book slots, and view booking status in real-time. The system also handles user authentication, booking conflict prevention, and database-driven slot management. Its responsive UI offers a seamless experience for both mobile and desktop users, streamlining the management of football turf bookings in local communities and sports centers.
+            </div>
+      
+           
+          </article>
+      
+          <!-- Exam Seat Arrangement and Publishing Website -->
+          <article class="project-card" tabindex="0" aria-label="Exam Seat Arrangement and Publishing Website project">
+            <h3>Exam Seat Arrangement and Publishing Website</h3>
+            <a href="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO" class="github-button" target="_blank">🔗 View on GitHub</a>
+            <p class="project-description">
+              Using HTML, CSS, JavaScript, Python, MySQL, and Django.
+            </p>
+      
+            <div class="screenshots" aria-label="Screenshots of Exam Seat Arrangement project">
+              <div class="screenshots-track">
+                <img src="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO/blob/main/screenshots/Screenshot%202025-05-12%20171608.png?raw=true" alt="Exam Seat screenshot 1" class="active"/>
+                <img src="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO/blob/main/screenshots/Screenshot%202025-05-12%20171616.png?raw=true" alt="Exam Seat screenshot 2" />
+                <img src="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO/blob/main/screenshots/Screenshot%202025-05-12%20171630.png?raw=true" alt="Exam Seat screenshot 3" />
+                <img src="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO/blob/main/screenshots/Screenshot%202025-05-12%20171639.png?raw=true" alt="Exam Seat screenshot 4" />
+                <img src="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO/blob/main/screenshots/Screenshot%202025-05-12%20171904.png?raw=true" alt="Exam Seat screenshot 5" />
+                <img src="https://github.com/santhoshjamesc/EXAM-SEAT-SCHEDULER-USING-PYTHON-DJANGO/blob/main/screenshots/Screenshot%202025-05-12%20171926.png?raw=true" alt="Exam Seat screenshot 6" />
+              </div>
+              <button class="carousel-nav left" onclick="scrollScreenshots(this, -1)">‹</button>
+              <button class="carousel-nav right" onclick="scrollScreenshots(this, 1)">›</button>
+            </div>
+      
+            <div class="hover-description">
+              This Exam Seat Arrangement and Publishing Website streamlines exam logistics by automating seating arrangements based on custom constraints using a greedy algorithm. Built with Django and Python, the system integrates MySQL for backend storage and uses pandas for data processing. It generates detailed seating plans and auto-publishes student allocations. A key feature includes WhatsApp messaging using pywhatkit to instantly notify students about their allocated seats. The platform is user-friendly, efficient, and scalable for educational institutions seeking to minimize manual scheduling efforts and avoid seating conflicts during major examinations or assessments.
+            </div>
+      
+            
+          </article>
+      
+          <!-- Quiz Website -->
+          <article class="project-card" tabindex="0" aria-label="Quiz Website project">
+            <h3>Quiz Website</h3>
+            <a href="https://github.com/santhoshjamesc/quiz-website-frontend" class="github-button" target="_blank">🔗 View on GitHub</a>
+            <p class="project-description">Using HTML, CSS, and JavaScript.</p>
+      
+            <div class="screenshots" aria-label="Screenshots of Quiz Website">
+              <div class="screenshots-track">
+                <img src="https://github.com/santhoshjamesc/quiz-website-frontend/blob/main/Screenshot%202025-06-06%20170120.png?raw=true" alt="Quiz Website screenshot 1" class="active" />
+                <img src="https://github.com/santhoshjamesc/quiz-website-frontend/blob/main/Screenshot%202025-06-06%20170144.png?raw=true" alt="Quiz Website screenshot 2" />
+                <img src="https://github.com/santhoshjamesc/quiz-website-frontend/blob/main/Screenshot%202025-06-06%20170252.png?raw=true" alt="Quiz Website screenshot 3" />
+                <img src="https://github.com/santhoshjamesc/quiz-website-frontend/blob/main/Screenshot%202025-06-06%20170413.png?raw=true" alt="Quiz Website screenshot 4" />
+              </div>
+              <button class="carousel-nav left" onclick="scrollScreenshots(this, -1)">‹</button>
+              <button class="carousel-nav right" onclick="scrollScreenshots(this, 1)">›</button>
+            </div>
+      
+            <div class="hover-description">
+              This interactive Quiz Website is a lightweight and educational project built using only HTML, CSS, and JavaScript. It features multiple-choice questions on various computer science topics, with 20–30 questions available per subject. The site offers instant feedback, tracks scores in real-time, and is ideal for self-assessment or classroom quizzes. The UI is responsive, ensuring compatibility across devices, and questions can be shuffled or categorized based on topics. Designed to promote learning in a fun, gamified way, the quiz platform can easily be extended to support a backend for dynamic question management and user performance analytics.
+            </div>
+      
+           
+          </article>
+      
+          <!-- React JS To-Do App -->
+          <article class="project-card" tabindex="0" aria-label="React JS To-Do App project">
+            <h3>React JS To-Do App</h3>
+            <a href="https://github.com/santhoshjamesc/react-todo" class="github-button" target="_blank">🔗 View on GitHub</a>
+            <p class="project-description">Built using React.js and Vite.</p>
+      
+            <div class="screenshots" aria-label="Screenshots of React JS To-Do App">
+              <div class="screenshots-track">
+                <img src="https://github.com/santhoshjamesc/react-todo/blob/main/vite-project/Screenshot%202025-06-06%20171710.png?raw=true" alt="React JS To-Do App screenshot 1" class="active" />
+                <img src="https://github.com/santhoshjamesc/react-todo/blob/main/vite-project/Screenshot%202025-06-06%20171734.png?raw=true" alt="React JS To-Do App screenshot 2" />
+              </div>
+              <button class="carousel-nav left" onclick="scrollScreenshots(this, -1)">‹</button>
+              <button class="carousel-nav right" onclick="scrollScreenshots(this, 1)">›</button>
+            </div>
+      
+            <div class="hover-description">
+              The React JS To-Do App is a simple yet powerful productivity tool built using React and Vite. It allows users to add, delete, and manage their daily tasks in a clean and minimal interface. Leveraging React hooks for state management and JSX for component structure, the app provides real-time updates and smooth UI interactions. Tasks are presented in a checklist format with clear status indicators for completion. Ideal for both beginners learning React and users needing a basic task organizer, this app showcases efficient front-end component design while maintaining a lightweight codebase that can be extended with features like local storage or database syncing.
+            </div>
+      
+           
+          </article>
+      
+        </div>
+      </section>
+      
+      
+      <section id="certificates" tabindex="0" aria-label="Certificates section">
+        <br><br><br>
+        <h2>Certificates</h2>
+        <div class="certificate-list">
+      
+          <div class="certificate-item" tabindex="0" aria-label="Certificate in HTML">
+            <img
+              src="html.png"
+              alt="HTML Certificate"
+            />
+            <p>HTML Fundamentals</p>
+          </div>
+      
+          <div class="certificate-item" tabindex="0" aria-label="Certificate in Git">
+            <img
+              src="git.png"
+              alt="Git Certificate"
+            />
+            <p>Git & Version Control</p>
+          </div>
+      
+          <div class="certificate-item" tabindex="0" aria-label="Certificate in React">
+            <img
+              src="react.png"
+              alt="React Certificate"
+            />
+            <p>React Development</p>
+          </div>
+      
+          <div class="certificate-item" tabindex="0" aria-label="Certificate in Artificial Intelligence">
+            <img
+              src="ai.png"
+              alt="Artificial Intelligence Certificate"
+            />
+            <p>Artificial Intelligence Beginner's Guide</p>
+          </div>
+      
+        </div>
+        <br><br>
+      </section>
+      
+      
+
+      <section id="volunteering" aria-label="Volunteering Experience" style="padding: 40px 20px; max-width: 1100px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <br><br><br> <h2 style="font-size: 2.5rem; margin-bottom: 40px; text-align: center; color: #222;">Volunteering</h2>
+      
+        <div style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 30px;
+        ">
+          <div style="padding: 25px; background: #f9f9f9; border-left: 6px solid #0077b6; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 5px 12px rgba(0,0,0,0.06); cursor: pointer;"
+               onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)'; this.style.zIndex='10';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 12px rgba(0,0,0,0.06)'; this.style.zIndex='0';">
+            <h3 style="margin: 0 0 10px; font-size: 1.3rem; color: #111; font-weight: 700;">Head of Media – Placement Cell CEC</h3>
+            <p style="margin: 0 0 6px; font-size: 1rem; color: #555;">Oct 2023 – Present · 1 yr 9 mos</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #777;">Science and Technology</p>
+          </div>
+      
+          <div style="padding: 25px; background: #f9f9f9; border-left: 6px solid #16a34a; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 5px 12px rgba(0,0,0,0.06); cursor: pointer;"
+               onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)'; this.style.zIndex='10';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 12px rgba(0,0,0,0.06)'; this.style.zIndex='0';">
+            <h3 style="margin: 0 0 10px; font-size: 1.3rem; color: #111; font-weight: 700;">Cadet – National Cadet Corps</h3>
+            <p style="margin: 0 0 6px; font-size: 1rem; color: #555;">Oct 2016 – Feb 2018 · 1 yr 5 mos</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #777;">Social Services</p>
+          </div>
+      
+          <div style="padding: 25px; background: #f9f9f9; border-left: 6px solid #ef4444; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 5px 12px rgba(0,0,0,0.06); cursor: pointer;"
+               onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)'; this.style.zIndex='10';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 12px rgba(0,0,0,0.06)'; this.style.zIndex='0';">
+            <h3 style="margin: 0 0 10px; font-size: 1.3rem; color: #111; font-weight: 700;">Vice Chair – SPACSCEC</h3>
+            <p style="margin: 0 0 6px; font-size: 1rem; color: #555;">Jan 2024 – Present · 1 yr 6 mos</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #777;">Science and Technology</p>
+          </div>
+      
+          <div style="padding: 25px; background: #f9f9f9; border-left: 6px solid #2563eb; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 5px 12px rgba(0,0,0,0.06); cursor: pointer;"
+               onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)'; this.style.zIndex='10';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 12px rgba(0,0,0,0.06)'; this.style.zIndex='0';">
+            <h3 style="margin: 0 0 10px; font-size: 1.3rem; color: #111; font-weight: 700;">Creative Team Member – IEDC.CEC</h3>
+            <p style="margin: 0 0 6px; font-size: 1rem; color: #555;">Nov 2023 – May 2024 · 7 mos</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #777;">IEEE</p>
+          </div>
+      
+          <div style="padding: 25px; background: #f9f9f9; border-left: 6px solid #8b5cf6; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 5px 12px rgba(0,0,0,0.06); cursor: pointer;"
+               onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)'; this.style.zIndex='10';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 12px rgba(0,0,0,0.06)'; this.style.zIndex='0';">
+            <h3 style="margin: 0 0 10px; font-size: 1.3rem; color: #111; font-weight: 700;">IEEE SBCETL Student Member</h3>
+            <p style="margin: 0 0 6px; font-size: 1rem; color: #555;">Jan 2022 – Dec 2022 · 1 yr</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #777;">Science and Technology</p>
+          </div>
+      
+          <div style="padding: 25px; background: #f9f9f9; border-left: 6px solid #f59e0b; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 5px 12px rgba(0,0,0,0.06); cursor: pointer;"
+               onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.3)'; this.style.zIndex='10';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 12px rgba(0,0,0,0.06)'; this.style.zIndex='0';">
+            <h3 style="margin: 0 0 10px; font-size: 1.3rem; color: #111; font-weight: 700;">Vice Chair – GDC CEC</h3>
+            <p style="margin: 0 0 6px; font-size: 1rem; color: #555;">Jun 2023 – Nov 2023 · 6 mos</p>
+            <p style="margin: 0; font-size: 0.95rem; color: #777;">Science and Technology</p>
+          </div>
+        </div>
+    </section>
+      
+    
+    
+      
+      <div id="edu-contact-container">
+        <section id="education" tabindex="0" aria-label="Education section"><br><br><br>
+          <h2>Education</h2>
+
+          <div
+            class="education-entry"
+            tabindex="0"
+            aria-label="Bachelor of Technology in Computer Science and Engineering from College of Engineering, Cherthala, APJ Abdul Kalam Technological University, 2021 to 2025, 70.9%"
+          >
+            <p>
+              <strong
+                >Bachelor of Technology – Computer Science and
+                Engineering</strong
+              >
+            </p>
+            <p>College of Engineering, Cherthala</p>
+            <p>APJ Abdul Kalam Technological University</p>
+            <p>2021 - 2025</p>
+            <p>70.9%</p>
+          </div>
+
+          <div
+            class="education-entry"
+            tabindex="0"
+            aria-label="12th Grade Bio-Maths from SCUGVHSS Pattanakad, Kerala DHSE, 2019 to 2021, 97%"
+          >
+            <p><strong>12th Grade – Bio-Maths</strong></p>
+            <p>SCUGVHSS Pattanakad</p>
+            <p>Kerala DHSE</p>
+            <p>2019 - 2021</p>
+            <p>97%</p>
+          </div>
+
+          <div
+            class="education-entry"
+            tabindex="0"
+            aria-label="10th Grade High School from SCUGVHSS Pattanakad, Kerala Board of Public Examinations, 2018 to 2019, 100%"
+          >
+            <p><strong>10th Grade – High School</strong></p>
+            <p>SCUGVHSS Pattanakad</p>
+            <p>Kerala Board of Public Examinations</p>
+            <p>2018 - 2019</p>
+            <p>100%</p>
+          </div>
+        </section>
+        <div id="sidebar-section">
+          <section id="hobbies" tabindex="0" aria-label="Hobbies section">
+            <h2>Hobbies</h2>
+            <ul>
+              <li>Cycling</li>
+              <li>Riding</li>
+              <li>Video Editing</li>
+              <li>Cooking</li>
+              <li>Watching TV Shows</li>
+              <li>Gaming</li>
+            </ul>
+          </section>
+
+          <section id="contact" tabindex="0" aria-label="Contact information">
+            <h2>Contact</h2>
+            <img src="san.png" alt="Santhosh James" style="width:150px; height:130px;" />
+            <p><strong>Santhosh James C</strong></p>
+            <p>📍 Kerala, Alappuzha, Cherthala, India</p>
+            <p>
+              📞
+              <a href="tel:+917306684286" aria-label="Call phone number +91 73066 84286">7306684286</a>
+            </p>
+            <p>
+              📧
+              <a href="mailto:santhoshjames527@gmail.com" aria-label="Email santhoshjames527@gmail.com">santhoshjames527@gmail.com</a>
+            </p>
+            <p>
+              🔗 LinkedIn:
+              <a href="https://www.linkedin.com/in/santhosh-james" target="_blank" rel="noopener" aria-label="LinkedIn profile">santhosh-james</a>
+            </p>
+            <p>
+              💻 GitHub:
+              <a href="https://github.com/santhosh-james" target="_blank" rel="noopener" aria-label="GitHub profile">santhosh-james</a>
+            </p>
+            <p>
+              💼 Upwork:
+              <a href="https://www.upwork.com/freelancers/~0154cfaeef6a85e89c" target="_blank" rel="noopener" aria-label="Upwork profile">Santhosh James C</a>
+            </p>
+          </section>
+          
+          
+          
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
