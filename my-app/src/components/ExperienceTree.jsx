@@ -1,3 +1,4 @@
+import { asset } from "../utils/asset";
 import Reveal from "./Reveal"
 
 // Git-style tree: trunk -> company node -> responsibility branches -> tech leaves
@@ -9,7 +10,7 @@ export function ExperienceTree({ items = [], notes = {} }) {
           <span className="xtree__dot" aria-hidden="true" />
           <Reveal variant="fadeUp" delay={i * 80}>
             <header className="xtree__head">
-              {e.logo && <img src={e.logo} alt="" width="40" height="40" loading="lazy" decoding="async" className="xtree__logo" />}
+              {e.logo && <img src={asset(e.logo)} alt="" width="40" height="40" loading="lazy" decoding="async" className="xtree__logo" />}
               <div>
                 <h3 className="xtree__company">{e.company}</h3>
                 <p className="xtree__role">{e.role}</p>

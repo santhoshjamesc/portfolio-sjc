@@ -1,3 +1,4 @@
+import { asset } from "../utils/asset";
 import { useEffect, useRef, useState } from "react"
 import { notify, NOTIFY_EVENT as EVT } from "../utils/notify"
 import { KINDS, noteFor } from "../data/notes"
@@ -77,7 +78,7 @@ export function Toasts() {
             onMouseLeave={() => !t.leaving && arm(t.id)}
           >
             <span className="toast__avatar" aria-hidden="true">
-              <img src="/san.webp" alt="" width="38" height="38" decoding="async" />
+              <img src={asset("san.webp")} alt="" width="38" height="38" decoding="async" />
               <em className="toast__badge">{t.icon || k.badge}</em>
             </span>
             <span className="toast__text">

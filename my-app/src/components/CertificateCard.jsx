@@ -1,3 +1,4 @@
+import { asset } from "../utils/asset";
 // components/CertificateCard.jsx
 import { useState } from "react"
 
@@ -40,7 +41,7 @@ export function CertificateCard({ title, image }) {
         position: "relative",
       }}>
         <img
-          src={`/${image}`}
+          src={asset(image)}
           decoding="async"
           loading="lazy"
           alt={`${title} certificate`}

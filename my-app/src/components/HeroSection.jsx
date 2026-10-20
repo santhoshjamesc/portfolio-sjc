@@ -1,3 +1,4 @@
+import { asset } from "../utils/asset";
 // components/HeroSection.jsx
 import { useEffect, useRef, useState } from "react"
 import { useInView } from "../hooks/useInView"
@@ -351,7 +352,7 @@ function HeroCard() {
           {/* Photo */}
           <div style={{ padding: "16px 20px 0" }}>
             <img
-              src="/sant.webp"
+              src={asset("sant.webp")}
               fetchPriority="high"
               alt="Santhosh James"
               style={{

@@ -1,3 +1,4 @@
+import { asset } from "../utils/asset";
 // components/ExperienceTimelineCard.jsx
 
 export function ExperienceTimelineCard({
@@ -13,7 +14,7 @@ export function ExperienceTimelineCard({
         <div className="exp-card__header">
           {logo && (
             <img
-              src={logo}
+              src={asset(logo)}
               alt={`${company} logo`}
               className="exp-card__logo"
               loading="lazy"
