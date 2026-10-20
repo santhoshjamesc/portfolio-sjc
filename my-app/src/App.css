@@ -212,6 +212,8 @@ ul, ol { list-style: none; }
 .main-container {
   position: relative;
   z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 clamp(16px, 5vw, 48px);
@@ -709,18 +711,18 @@ ul, ol { list-style: none; }
 
   /* Hero: single column */
   section#about {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 40px !important;
   }
 
   /* ProjectCard expanded: stack image below text */
   .pc-expanded-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
   }
 
   /* Contact grid: stack panels */
   .contact-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 24px !important;
   }
 
@@ -775,7 +777,7 @@ ul, ol { list-style: none; }
 
   /* Hero: tighten stat row */
   section#about {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 28px !important;
     padding-bottom: 32px;
   }
@@ -851,7 +853,7 @@ ul, ol { list-style: none; }
 
   /* Contact grid: always single column */
   .contact-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 14px !important;
   }
 
@@ -1140,6 +1142,7 @@ section#about p { overflow-wrap: break-word; }
 
 /* Section headings stay on one line */
 .section-title { white-space: nowrap; }
+@media (max-width: 639px) { .section-title { white-space: normal; min-width: 0; overflow-wrap: anywhere; } }
 .section-line { flex-basis: 0; }
 @media (max-width: 479px) {
   .section-line { flex-basis: 20px; min-width: 20px; }
