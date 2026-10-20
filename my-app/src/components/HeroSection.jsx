@@ -297,6 +297,7 @@ function HeroCard() {
     >
       <div
         ref={ref}
+        className="hero-card"
         onMouseMove={handleMove}
         onMouseLeave={handleLeave}
         style={{
@@ -353,6 +354,7 @@ function HeroCard() {
           <div style={{ padding: "16px 20px 0" }}>
             <img
               src={asset("sant.webp")}
+              className="hero-photo"
               fetchPriority="high"
               alt="Santhosh James"
               style={{
