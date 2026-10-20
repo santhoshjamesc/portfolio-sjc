@@ -20,10 +20,10 @@ export function SmallHoverCard({ title, points = [] }) {
       }}
       onMouseMove={handleMove}
       style={{
-        background: "rgba(10,15,30,0.9)",
+        background: "rgb(var(--surface-rgb) / 0.9)",
         border: hov
-          ? "1px solid rgba(56,189,248,0.5)"
-          : "1px solid rgba(56,189,248,0.08)",
+          ? "1px solid rgb(var(--cyan-rgb) / 0.5)"
+          : "1px solid rgb(var(--cyan-rgb) / 0.08)",
         borderRadius: 18,
         padding: "22px 20px",
         cursor: "default",
@@ -38,8 +38,8 @@ export function SmallHoverCard({ title, points = [] }) {
         `,
 
         boxShadow: hov
-          ? "0 0 40px rgba(56,189,248,0.18), 0 20px 60px rgba(0,0,0,0.8)"
-          : "0 6px 24px rgba(0,0,0,0.5)",
+          ? "0 0 40px rgb(var(--cyan-rgb) / 0.18), 0 20px 60px rgb(var(--shadow-rgb) / calc(0.8 * var(--shadow-k)))"
+          : "0 6px 24px rgb(var(--shadow-rgb) / calc(0.5 * var(--shadow-k)))",
 
         transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
       }}
@@ -50,7 +50,7 @@ export function SmallHoverCard({ title, points = [] }) {
           position: "absolute",
           inset: 0,
           background: hov
-            ? "radial-gradient(circle at 50% 0%, rgba(56,189,248,0.25), transparent 60%)"
+            ? "radial-gradient(circle at 50% 0%, rgb(var(--cyan-rgb) / 0.25), transparent 60%)"
             : "transparent",
           opacity: hov ? 1 : 0,
           transition: "opacity 0.4s",
@@ -65,7 +65,7 @@ export function SmallHoverCard({ title, points = [] }) {
           left: hov ? "0%" : "-100%",
           width: "100%",
           height: 2,
-          background: "linear-gradient(90deg, #38bdf8, #2dd4bf)",
+          background: "linear-gradient(90deg, var(--cyan), var(--teal))",
           transition: "left 0.5s ease",
         }}
       />
@@ -79,9 +79,9 @@ export function SmallHoverCard({ title, points = [] }) {
           width: 6,
           height: 6,
           borderRadius: "50%",
-          background: "#2dd4bf",
+          background: "var(--teal)",
           opacity: hov ? 1 : 0.3,
-          boxShadow: hov ? "0 0 10px #2dd4bf" : "none",
+          boxShadow: hov ? "0 0 10px var(--teal)" : "none",
           transition: "all 0.3s",
         }}
       />
@@ -90,10 +90,10 @@ export function SmallHoverCard({ title, points = [] }) {
       <h3
         style={{
           fontFamily: "'Orbitron', sans-serif",
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           letterSpacing: 2,
-          color: hov ? "#38bdf8" : "#94a3b8",
+          color: hov ? "var(--cyan)" : "var(--text-muted)",
           textTransform: "uppercase",
           marginBottom: 16,
           transition: "color 0.3s",
@@ -107,7 +107,7 @@ export function SmallHoverCard({ title, points = [] }) {
         style={{
           height: 1,
           background:
-            "linear-gradient(90deg, rgba(56,189,248,0.5), transparent)",
+            "linear-gradient(90deg, rgb(var(--cyan-rgb) / 0.5), transparent)",
           marginBottom: 14,
           opacity: hov ? 1 : 0.3,
           transition: "opacity 0.3s",
@@ -133,7 +133,7 @@ export function SmallHoverCard({ title, points = [] }) {
               fontFamily: "'Rajdhani', sans-serif",
               fontSize: 14,
               fontWeight: 500,
-              color: "#cbd5e1",
+              color: "var(--text-soft)",
 
               opacity: hov ? 1 : 0.6,
               transform: hov
@@ -148,9 +148,9 @@ export function SmallHoverCard({ title, points = [] }) {
                 width: 5,
                 height: 5,
                 borderRadius: "50%",
-                background: "#38bdf8",
+                background: "var(--cyan)",
                 boxShadow: hov
-                  ? "0 0 8px rgba(56,189,248,0.8)"
+                  ? "0 0 8px rgb(var(--cyan-rgb) / 0.8)"
                   : "none",
                 transition: "all 0.3s",
               }}

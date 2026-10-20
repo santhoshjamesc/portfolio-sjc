@@ -3,25 +3,23 @@
 // ============================================================
 
 export const NAV_LINKS = [
-    { label: "About",        href: "#about"        },
-    { label: "Skills",       href: "#skills"       },
-    { label: "Services",     href: "#services"     },
-    { label: "Projects",     href: "#projects"     },
-    { label: "Certificates", href: "#certificates" },
+    { label: "About",      href: "#about"      },
+    { label: "Skills",     href: "#skills"     },
+    { label: "Projects",   href: "#projects"   },
     { label: "Experience", href: "#experience" },
-    { label: "Volunteering", href: "#volunteering" },
-    { label: "Education",    href: "#education"    },
-    { label: "Contact",      href: "#contact"      },
+    { label: "Education",  href: "#education"  },
+    { label: "Contact",    href: "#contact"    },
   ];
 
   export const resumelink ="https://drive.google.com/file/d/16AIy1257bz_3Vzk1-nnn4EG6wz8odc0b/view?usp=sharing"
   
   export const SKILLS = [
     { title: "Languages", points: ["Python", "C", "C#", "JavaScript", "TypeScript", "Java"] },
-    { title: "Web Development", points: ["HTML", "CSS", "React", "Node.js", "Django", "Tailwind CSS", "Gin Framework", "GORM"] },
+    { title: "Web Development", points: ["HTML", "CSS", "React", "Node.js", "NestJS", "Django", "Tailwind CSS", "Gin Framework", "GORM", "REST APIs"] },
+    { title: "Mobile Development", points: ["React Native", "Expo", "Zustand", "Context API", "Firebase Authentication", "FCM Push Notifications", "Payment Gateway Integration"] },
     { title: "Libraries & Frameworks", points: ["OpenCV", "Tkinter", "Haar Cascade", "Siamese Neural Network", "Unity", "Vuforia SDK"] },
     { title: "Databases & Storage", points: ["MySQL", "PostgreSQL", "Firebase Firestore", "Supabase Storage", "Redis"] },
-    { title: "Tools & Platforms", points: ["GitHub", "VS Code", "Photoshop", "Premiere Pro", "Canva", "Android SDK"] },
+    { title: "Tools & Platforms", points: ["GitHub", "VS Code", "Photoshop", "Premiere Pro", "Canva", "Android SDK", "Android Studio", "Xcode", "Postman", "Maestro"] },
     { title: "Soft Skills", points: ["Teamwork", "Problem Solving", "Leadership", "Creativity"] },
   ];
   
@@ -129,11 +127,71 @@ export const NAV_LINKS = [
     },
   ];
   
+  export const OPEN_SOURCE = [
+    {
+      kind: "npm",
+      name: "react-native-floating-glass-tabbar",
+      version: "0.1.0",
+      license: "MIT",
+      description:
+        "Floating frosted-glass pill tab bar for React Native. A custom tabBar for React Navigation bottom tabs and expo-router, with a spring-animated indicator, label modes, badges, RTL and collapse-on-scroll.",
+      tags: ["React Native", "Expo Router", "React Navigation", "Reanimated"],
+      link: "https://www.npmjs.com/package/react-native-floating-glass-tabbar",
+      repo: "https://github.com/santhoshjamesc/react-native-floating-glass-tabbar",
+    },
+    {
+      kind: "npm",
+      name: "react-native-collapsible-sticky-header",
+      version: "0.1.0",
+      license: "MIT",
+      description:
+        "A fully configurable collapsing hero header with a sticky compact bar for React Native (iOS & Android), powered by Reanimated.",
+      tags: ["React Native", "Reanimated", "iOS", "Android"],
+      link: "https://www.npmjs.com/package/react-native-collapsible-sticky-header",
+      repo: "https://github.com/santhoshjamesc/react-native-collapsible-sticky-header",
+    },
+    {
+      kind: "npm",
+      name: "react-appointment-ui",
+      version: "1.0.1",
+      license: "ISC",
+      description: "Appointment calendar React component library.",
+      tags: ["React", "Calendar", "UI Library"],
+      link: "https://www.npmjs.com/package/react-appointment-ui",
+    },
+    {
+      kind: "vscode",
+      name: "Git Limiter",
+      version: "0.1.0",
+      license: "MIT",
+      description:
+        "Nudges you (with sound and bad jokes) to open a PR while it's still small enough to review. Limits files and lines per file, with a status bar meter.",
+      tags: ["VS Code", "Git", "Productivity"],
+      link: "https://marketplace.visualstudio.com/items?itemName=SANTHOSHJAMESC.gitlimiter",
+      repo: "https://github.com/santhoshjamesc/gitlimiter",
+    },
+    {
+      kind: "vscode",
+      name: "PR Reminder & Alert",
+      version: "0.2.0",
+      description:
+        "Tracks your GitHub pull requests, sends reviewers private Google Chat reminders, and shows hard-to-miss alerts for PR activity.",
+      tags: ["VS Code", "GitHub", "Google Chat"],
+      link: "https://marketplace.visualstudio.com/items?itemName=SANTHOSHJAMESC.pr-reminder-alert",
+    },
+  ];
+
+  export const OPEN_SOURCE_PROFILES = [
+    { label: "NPM",       href: "https://www.npmjs.com/~santhoshjamesc" },
+    { label: "VS Marketplace", href: "https://marketplace.visualstudio.com/publishers/santhoshjamesc" },
+    { label: "GitHub",      href: "https://github.com/santhoshjamesc" },
+  ];
+
   export const CERTIFICATES = [
-    { title: "HTML",  image: "html.png"  },
-    { title: "Git",   image: "git.png"   },
-    { title: "React", image: "react.png" },
-    { title: "AI",    image: "ai.png"    },
+    { title: "HTML",  image: "html.webp"  },
+    { title: "Git",   image: "git.webp"   },
+    { title: "React", image: "react.webp" },
+    { title: "AI",    image: "ai.webp"    },
   ];
   
   export const VOLUNTEERING = [
@@ -198,27 +256,45 @@ export const NAV_LINKS = [
 export const SERVICES = [
     {
       title: "Android Development",
+      icon: "android",
       description:
-        "Building native and cross-platform Android applications with smooth performance and modern UI practices.",
+        "Native and cross-platform Android apps.",
     },
     {
       title: "Mobile Application Development",
+      icon: "mobile",
       description:
-        "Creating scalable and user-friendly mobile apps with seamless functionality across devices.",
+        "Scalable mobile apps for iOS and Android.",
     },
     {
       title: "Web Design",
+      icon: "design",
       description:
-        "Designing visually appealing and user-centric web interfaces with strong focus on UX and responsiveness.",
+        "User-centric, responsive interfaces.",
     },
     {
       title: "Web Development",
+      icon: "web",
       description:
-        "Developing fast, responsive, and scalable web applications using modern technologies like React and TypeScript.",
+        "Fast web apps with React and TypeScript.",
     },
   ];
   
   export const EXPERIENCE = [
+    {
+      company: "Adviciya Solutions Pvt Ltd",
+      role: "Junior Software Developer",
+      logo: "/adviciya-logo.webp",
+      dates: "Apr 2026 – Present · Kochi, Kerala",
+      responsibilities: [
+        "Developed and shipped 7 cross-platform mobile apps for Android and iOS using React Native (Expo) and TypeScript, plus 1 backend service; turned UI/UX designs into reusable, responsive screens and components.",
+        "Handled the full release cycle: iOS and Android builds distributed for testing and apps published on the Google Play Store.",
+        "Integrated a payment gateway with webhook-based payment confirmation; implemented Firebase Authentication, FCM push notifications and state management (Zustand, Context API).",
+        "Built backend REST APIs with Node.js (NestJS) and PostgreSQL and integrated them into the mobile apps with async data fetching and error handling.",
+        "Debugged and tested on Android Studio emulators, Xcode simulators and real devices; automated UI flows with Maestro and verified APIs with Postman.",
+      ],
+      techStack: ["React Native", "Expo", "TypeScript", "NestJS", "PostgreSQL", "Firebase", "Zustand"],
+    },
     {
       company: "Freelance",
       role: "Software Developer",
@@ -235,7 +311,7 @@ export const SERVICES = [
       company: "Cube",
       role: "Operation Associate",
       dates: "Oct 2025 – Nov 2025",
-      logo: "https://media.licdn.com/dms/image/v2/D560BAQEFxnAtWsRLUA/company-logo_200_200/company-logo_200_200/0/1685645305527/cubehqai_logo?e=1775692800&v=beta&t=ijN_QkqVaFlG_XjcqHAkyIFDiTqBJTYzieDoLUi1hJQ",
+      logo: "/cube-logo.webp",
       responsibilities: [
         "Assisted in operational workflows and internal processes.",
         "Collaborated with team members to improve efficiency and coordination.",
@@ -276,6 +352,8 @@ export const SERVICES = [
     {
       icon: "📧",
       label: "EMAIL",
+      slug: "gmail",
+      color: "#EA4335",
       value: "santhoshjames527@gmail.com",
       href: "mailto:santhoshjames527@gmail.com",
       type: "email",
@@ -283,6 +361,8 @@ export const SERVICES = [
     {
       icon: "📸",
       label: "INSTAGRAM",
+      slug: "instagram",
+      color: "#E4405F",
       value: "santhoshjames.c",
       href: "https://www.instagram.com/santhoshjames.c/",
       type: "link",
@@ -290,6 +370,8 @@ export const SERVICES = [
     {
       icon: "🔗",
       label: "LINKEDIN",
+      slug: "linkedin",
+      color: "#0A66C2",
       value: "santhosh-james",
       href: "https://www.linkedin.com/in/sjc730/",
       type: "link",
@@ -297,6 +379,8 @@ export const SERVICES = [
     {
       icon: "💻",
       label: "GITHUB",
+      slug: "github",
+      color: "#FFFFFF",
       value: "santhoshjamesc",
       href: "https://github.com/santhoshjamesc",
       type: "link",
@@ -304,6 +388,8 @@ export const SERVICES = [
     {
       icon: "📦",
       label: "NPM",
+      slug: "npm",
+      color: "#CB3837",
       value: "santhoshjamesc",
       href: "https://www.npmjs.com/~santhoshjamesc",
       type: "link",
@@ -311,6 +397,8 @@ export const SERVICES = [
     {
       icon: "💼",
       label: "UPWORK",
+      slug: "upwork",
+      color: "#14A800",
       value: "santhoshjamesc",
       href: "https://www.upwork.com/freelancers/~0154cfaeef6a85e89c",
       type: "link",

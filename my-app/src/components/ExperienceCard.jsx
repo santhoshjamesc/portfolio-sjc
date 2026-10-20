@@ -9,13 +9,13 @@ export function ExperienceCard({ role, org, duration, details }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        background: hov ? "rgba(12,20,42,0.97)" : "rgba(8,14,30,0.85)",
-        border: hov ? "1px solid rgba(56,189,248,0.4)" : "1px solid rgba(56,189,248,0.1)",
+        background: hov ? "rgb(var(--surface-rgb) / 0.97)" : "rgb(var(--surface-rgb) / 0.85)",
+        border: hov ? "1px solid rgb(var(--cyan-rgb) / 0.4)" : "1px solid rgb(var(--cyan-rgb) / 0.1)",
         borderRadius: 16,
         padding: "22px 20px",
         boxShadow: hov
-          ? "0 0 28px rgba(56,189,248,0.12), 0 12px 36px rgba(0,0,0,0.7)"
-          : "0 4px 16px rgba(0,0,0,0.4)",
+          ? "0 0 28px rgb(var(--cyan-rgb) / 0.12), 0 12px 36px rgb(var(--shadow-rgb) / calc(0.7 * var(--shadow-k)))"
+          : "0 4px 16px rgb(var(--shadow-rgb) / calc(0.4 * var(--shadow-k)))",
         transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
         transform: hov ? "perspective(900px) translateY(-5px) scale(1.015)" : "perspective(900px)",
         transformStyle: "preserve-3d",
@@ -29,8 +29,8 @@ export function ExperienceCard({ role, org, duration, details }) {
       <div style={{
         position: "absolute", left: 0, top: "20%", bottom: "20%", width: 3,
         background: hov
-          ? "linear-gradient(180deg,#38bdf8,#2dd4bf)"
-          : "linear-gradient(180deg,rgba(56,189,248,0.2),rgba(45,212,191,0.2))",
+          ? "linear-gradient(180deg,var(--cyan),var(--teal))"
+          : "linear-gradient(180deg,rgb(var(--cyan-rgb) / 0.2),rgb(var(--teal-rgb) / 0.2))",
         borderRadius: "0 2px 2px 0",
         transition: "all 0.35s",
       }} />
@@ -38,8 +38,8 @@ export function ExperienceCard({ role, org, duration, details }) {
       {/* Role */}
       <h3 style={{
         fontFamily: "'Orbitron', sans-serif",
-        fontSize: 11, fontWeight: 700, letterSpacing: 2,
-        color: hov ? "#e2e8f0" : "#94a3b8",
+        fontSize: 12, fontWeight: 700, letterSpacing: 2,
+        color: hov ? "var(--text-primary)" : "var(--text-muted)",
         textTransform: "uppercase",
         marginBottom: 10,
         transition: "color 0.3s",
@@ -49,18 +49,18 @@ export function ExperienceCard({ role, org, duration, details }) {
       </h3>
 
       {/* Org + duration row */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
         <span style={{
           fontFamily: "'Rajdhani', sans-serif",
-          fontSize: 14, fontWeight: 600, color: "#38bdf8",
+          fontSize: 15, fontWeight: 600, color: "var(--cyan)",
         }}>
           {org}
         </span>
         <span style={{
           fontFamily: "'Orbitron', sans-serif",
-          fontSize: 8, color: "#2dd4bf",
-          border: "1px solid rgba(45,212,191,0.25)",
-          padding: "3px 10px", borderRadius: 20, letterSpacing: 1,
+          fontSize: 12, color: "var(--teal)",
+          border: "1px solid rgb(var(--teal-rgb) / 0.25)",
+          padding: "3px 10px", borderRadius: 20, letterSpacing: 0.5,
           whiteSpace: "nowrap",
         }}>
           {duration}
@@ -71,8 +71,8 @@ export function ExperienceCard({ role, org, duration, details }) {
       <div style={{
         height: 1,
         background: hov
-          ? "linear-gradient(90deg,rgba(56,189,248,0.3),transparent)"
-          : "linear-gradient(90deg,rgba(56,189,248,0.08),transparent)",
+          ? "linear-gradient(90deg,rgb(var(--cyan-rgb) / 0.3),transparent)"
+          : "linear-gradient(90deg,rgb(var(--cyan-rgb) / 0.08),transparent)",
         marginBottom: 14,
         transition: "all 0.35s",
       }} />
@@ -80,7 +80,7 @@ export function ExperienceCard({ role, org, duration, details }) {
       {/* Details */}
       <p style={{
         fontFamily: "'Rajdhani', sans-serif",
-        fontSize: 14, color: "#475569", lineHeight: 1.6,
+        fontSize: 14, color: "var(--text-dim)", lineHeight: 1.6,
       }}>
         {details}
       </p>
@@ -90,7 +90,7 @@ export function ExperienceCard({ role, org, duration, details }) {
         <div style={{
           position: "absolute", top: -30, right: -30,
           width: 80, height: 80, borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(56,189,248,0.08) 0%,transparent 70%)",
+          background: "radial-gradient(circle,rgb(var(--cyan-rgb) / 0.08) 0%,transparent 70%)",
           pointerEvents: "none",
         }} />
       )}

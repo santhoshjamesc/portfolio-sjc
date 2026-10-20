@@ -48,14 +48,16 @@ function Reveal({
     }
   }, [once])
 
+  const reduced = typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
   const v = VARIANTS[variant]?.(delay) ?? VARIANTS.fadeUp(delay)
-  const currentStyle = v[state] ?? v.hidden
+  const currentStyle = reduced ? { opacity: 1, transform: "none" } : (v[state] ?? v.hidden)
 
   return (
     <div
       ref={ref}
       className={className}
-      style={{ ...currentStyle, willChange: "opacity, transform", ...style }}
+      style={{ ...currentStyle, ...(reduced ? {} : { willChange: "opacity, transform" }), ...style }}
     >
       {children}
     </div>

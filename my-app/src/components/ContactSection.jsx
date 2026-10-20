@@ -1,341 +1,127 @@
-import { useState, useRef } from "react"
-import { useInView } from "../hooks/useInView"
-import { CONTACTS } from "../data/data"
+import { useEffect, useState } from "react"
+import { CONTACTS, FOOTER } from "../data/data"
+import { notify } from "../utils/notify"
+import Reveal from "./Reveal"
 
-/* ---------- Reveal ---------- */
-function Reveal({ children, delay = 0 }) {
-  const [ref, inView] = useInView()
+const brandSrc = (slug) => `https://cdn.jsdelivr.net/npm/simple-icons@11.14.0/icons/${slug}.svg`
 
+function BrandIcon({ slug, color, fallback }) {
+  const [failed, setFailed] = useState(false)
+  if (!slug || failed) return <>{fallback}</>
   return (
-    <div
-      ref={ref}
-      style={{
-        opacity: inView ? 1 : 0,
-        transform: inView ? "translateY(0)" : "translateY(40px)",
-        transition: `all 0.8s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
+    <span className="brand-icon" style={{ "--brand": color, "--src": `url(${brandSrc(slug)})` }}>
+      <img src={brandSrc(slug)} alt="" width="22" height="22" onError={() => setFailed(true)} />
+    </span>
   )
 }
 
-/* ---------- Contact Link ---------- */
-function ContactLink({
-  icon,
-  label,
-  value,
-  href,
-  type,
-  delay,
-  onClick,
-  active,
-  setHovered,
-}) {
-  const [hov, setHov] = useState(false)
+const PhoneIcon = () => (
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
+  </svg>
+)
 
-  return (
-    <Reveal delay={delay}>
-      <a
-        href={href}
-        onClick={(e) => {
-          e.preventDefault()
-          onClick({ icon, label, value, href, type })
-        }}
-        onMouseEnter={() => {
-          setHov(true)
-          setHovered(label)
-        }}
-        onMouseLeave={() => {
-          setHov(false)
-          setHovered(null)
-        }}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-          padding: "16px 20px",
-          borderRadius: 14,
-          cursor: "pointer",
+const byType = (t) => CONTACTS.find((c) => c.type === t)
 
-          background: active
-            ? "rgba(56,189,248,0.15)"
-            : hov
-            ? "rgba(12,20,42,0.97)"
-            : "rgba(8,14,30,0.85)",
-
-          border: active
-            ? "1px solid #38bdf8"
-            : "1px solid rgba(56,189,248,0.1)",
-
-          transform: hov
-            ? "perspective(900px) rotateX(8deg) rotateY(-8deg) scale(1.05)"
-            : "perspective(900px)",
-
-          boxShadow: hov
-            ? "0 30px 60px rgba(0,0,0,0.7), 0 0 30px rgba(56,189,248,0.25)"
-            : "0 4px 16px rgba(0,0,0,0.3)",
-
-          transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
-        }}
-      >
-        <div style={{
-          width: 42,
-          height: 42,
-          borderRadius: 12,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "rgba(56,189,248,0.1)",
-        }}>
-          {icon}
-        </div>
-
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 10, color: "#475569" }}>{label}</div>
-          <div style={{
-            fontSize: 14,
-            fontWeight: 600,
-            color: active ? "#38bdf8" : "#94a3b8",
-          }}>
-            {value}
-          </div>
-        </div>
-
-        <span style={{ color: "#38bdf8" }}>↗</span>
-      </a>
-    </Reveal>
-  )
+function useKochiTime() {
+  const fmt = () => new Intl.DateTimeFormat("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true, timeZone: "Asia/Kolkata" }).format(new Date())
+  const [t, setT] = useState(fmt)
+  useEffect(() => {
+    const id = setInterval(() => setT(fmt()), 30000)
+    return () => clearInterval(id)
+  }, [])
+  return t
 }
 
-/* ---------- MAIN ---------- */
+function downloadVCard(email, phone) {
+  const vcf = [
+    "BEGIN:VCARD", "VERSION:3.0", `FN:${FOOTER.name.replace(/\b(\w)(\w*)/g, (_, a, b) => a + b.toLowerCase())}`,
+    "TITLE:Software Developer", `EMAIL:${email.value}`, `TEL:${phone.value}`, "END:VCARD",
+  ].join("\r\n")
+  const url = URL.createObjectURL(new Blob([vcf], { type: "text/vcard" }))
+  const a = Object.assign(document.createElement("a"), { href: url, download: "santhosh-james.vcf" })
+  a.click()
+  URL.revokeObjectURL(url)
+  notify({ kind: "contact", icon: "📇", body: "Saved my contact card. Now you can't lose me!" })
+}
+
 export function ContactSection() {
-  const [cardRef] = useInView()
-  const card3DRef = useRef()
-  const [activeContact, setActiveContact] = useState(CONTACTS[0])
-  const [preview, setPreview] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [hovered, setHovered] = useState(null)
+  const email = byType("email")
+  const phone = byType("phone")
+  const socials = CONTACTS.filter((c) => c.type === "link")
+  const time = useKochiTime()
+  const [name, setName] = useState("")
+  const [msg, setMsg] = useState("")
 
-  /* ---------- LAZY PREVIEW ---------- */
-  const handleClick = async (data) => {
-    console.log("wrking")
-    setActiveContact(data)
-    setPreview(null)
-    console.log(data)
-    if (data.type !== "link") return
-
-    setLoading(true)
-
-    const delay = new Promise((res) => setTimeout(res, 600))
-
+  const copyEmail = async () => {
     try {
-      const fetchData = fetch(
-        `https://api.microlink.io/?url=${encodeURIComponent(data.href)}`
-      ).then((r) => r.json())
-
-      const [json] = await Promise.all([fetchData, delay])
-
-      setPreview({
-        title: json.data?.title || data.label,
-        description:
-          json.data?.description || "No preview available.",
-        image: json.data?.image?.url ||json.data?.logo?.url || null,
-      })
+      await navigator.clipboard.writeText(email.value)
+      notify({ kind: "contact", icon: "📋", body: "Email copied. Paste it anywhere and say hi!" })
     } catch {
-      setPreview({
-        title: data.label,
-        description: "Preview failed to load.",
-        image: null,
-      })
+      notify({ kind: "contact", body: `Here it is: ${email.value}` })
     }
-
-    setLoading(false)
   }
 
-  /* ---------- 3D ---------- */
-  const handleMouseMove = (e) => {
-    const rect = card3DRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    const rotateY = ((x / rect.width) - 0.5) * 20
-    const rotateX = ((y / rect.height) - 0.5) * -20
-
-    card3DRef.current.style.transform =
-      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-  }
-
-  const resetTilt = () => {
-    card3DRef.current.style.transform =
-      "perspective(1000px) rotateX(0) rotateY(0)"
+  const send = (e) => {
+    e.preventDefault()
+    const subject = `Hello from ${name || "your portfolio"}`
+    const body = `${msg}\n\n— ${name}`
+    window.location.href = `mailto:${email.value}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    notify({ kind: "contact", icon: "✉️", body: "Opening your mail app with the message ready. Just hit send!" })
   }
 
   return (
-    <section id="contact">
-      <h2>CONTACT</h2>
+    <section id="contact" className="section ct">
+      <Reveal variant="fadeUp">
+        <p className="ct__status"><i aria-hidden="true" /> Available for work · Kochi, Kerala · {time} IST</p>
+        <h2 className="ct__headline">Have an idea?<br /><span>Let&apos;s build it.</span></h2>
+        <p className="ct__sub">Open to roles, freelance work and collaborations. I usually reply within a day.</p>
+      </Reveal>
 
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1.4fr",
-        gap: 40,
-      }}>
-        {/* LEFT */}
-        <div ref={cardRef}>
-          <div
-            ref={card3DRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={resetTilt}
-            style={{
-              background: "#0b1220",
-              borderRadius: 20,
-              padding: 20,
-              boxShadow: hovered
-                ? "0 0 60px rgba(56,189,248,0.35)"
-                : "0 20px 60px rgba(0,0,0,0.7)",
-            }}
-          >
-            <div
-              key={activeContact.label}
-              style={{ animation: "fadeSlide 0.5s ease" }}
-            >
-              <h3 style={{ color: "#38bdf8" }}>
-                {activeContact.label}
-              </h3>
-
-              <p>{activeContact.value}</p>
-
-              {/* 🔥 BUTTON */}
-              <a
-                href={activeContact.href}
-                target="_blank"
-                rel="noreferrer"
-                className="visit-btn"
-              >
-                Open ↗
-              </a>
-
-              {/* PHONE */}
-              {activeContact.type === "phone" && (
-                <img src="san.png" className="preview-img" />
-              )}
-
-                            {/* email*/}
-              {activeContact.type === "email" && (
-                <img src="san.png" className="preview-img" />
-              )}
-
-              {/* LOADING */}
-              {loading && <div className="skeleton" />}
-
-              {/* PREVIEW */}
-              {preview && !loading && (
-                <div className="preview-card">
-                  <img
-                    src={
-                      preview.image ||
-                      "https://via.placeholder.com/400x200?text=Preview"
-                    }
-                  />
-                  <div className="preview-content">
-                    <h4>{preview.title}</h4>
-                    <p>{preview.description}</p>
-                  </div>
-                </div>
-              )}
+      <div className="ct__grid">
+        {/* Composer */}
+        <Reveal variant="fadeLeft" style={{ height: "100%" }}>
+          <form className="ct-mail" onSubmit={send}>
+            <div className="ct-mail__bar" aria-hidden="true"><i /><i /><i /><span>New message</span></div>
+            <div className="ct-mail__field"><span>To</span><b>{email.value}</b></div>
+            <label className="ct-mail__field">
+              <span>From</span>
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" required autoComplete="name" />
+            </label>
+            <label className="ct-mail__body">
+              <span className="sr-only">Message</span>
+              <textarea value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="Tell me about your project…" rows={6} required />
+            </label>
+            <div className="ct-mail__actions">
+              <button type="submit" className="ct-btn ct-btn--primary">Send message ↗</button>
+              <button type="button" className="ct-btn" onClick={copyEmail}>Copy email</button>
+              <button type="button" className="ct-btn" onClick={() => downloadVCard(email, phone)}>Save contact</button>
             </div>
+          </form>
+        </Reveal>
+
+        {/* Links */}
+        <Reveal variant="fadeRight" style={{ height: "100%" }}>
+          <div className="ct__side">
+            <a className="ct-phone" href={phone.href} aria-label={`Call ${phone.value}`}>
+              <span aria-hidden="true"><PhoneIcon /></span>
+              <span><small>CALL ME</small><b>{phone.value}</b></span>
+              <i aria-hidden="true">→</i>
+            </a>
+            <ul className="ct-socials">
+              {socials.map((c) => (
+                <li key={c.label}>
+                  <a href={c.href} target="_blank" rel="noopener noreferrer" aria-label={`${c.label}: ${c.value} (opens in a new tab)`}>
+                    <span aria-hidden="true"><BrandIcon slug={c.slug} color={c.color} fallback={c.icon} /></span>
+                    <small>{c.label}</small>
+                    <i aria-hidden="true">↗</i>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-
-        {/* RIGHT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {CONTACTS.map((c, i) => (
-            <ContactLink
-              key={c.label}
-              {...c}
-              delay={i * 80}
-              onClick={handleClick}
-              active={activeContact.label === c.label}
-              setHovered={setHovered}
-            />
-          ))}
-        </div>
+        </Reveal>
       </div>
-
-      <style>{`
-        @keyframes fadeSlide {
-          from {
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            filter: blur(6px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0);
-          }
-        }
-
-        .visit-btn {
-          display: inline-block;
-          margin: 10px 0;
-          padding: 8px 14px;
-          border-radius: 8px;
-          background: #38bdf8;
-          color: black;
-          font-size: 12px;
-          font-weight: 600;
-          text-decoration: none;
-          transition: 0.3s;
-        }
-
-        .visit-btn:hover {
-          transform: scale(1.08);
-          box-shadow: 0 10px 25px rgba(56,189,248,0.4);
-        }
-
-        .preview-img {
-          width: 100%;
-          border-radius: 10px;
-        }
-
-        .skeleton {
-          margin-top: 12px;
-          height: 160px;
-          border-radius: 12px;
-          background: linear-gradient(90deg,#0f172a,#1e293b,#0f172a);
-          background-size: 200% 100%;
-          animation: shimmer 1.2s infinite;
-        }
-
-        @keyframes shimmer {
-          0% {background-position: 200%}
-          100% {background-position: -200%}
-        }
-
-        .preview-card {
-          margin-top: 12px;
-          border-radius: 12px;
-          overflow: hidden;
-          background: #020617;
-          animation: previewIn 0.4s ease;
-        }
-
-        .preview-card img {
-          width: 100%;
-          height: 160px;
-          object-fit: cover;
-        }
-
-        .preview-content {
-          padding: 10px;
-        }
-
-        @keyframes previewIn {
-          from {opacity:0; transform:scale(0.95)}
-          to {opacity:1; transform:scale(1)}
-        }
-      `}</style>
     </section>
   )
 }

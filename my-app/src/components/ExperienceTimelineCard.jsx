@@ -16,6 +16,10 @@ export function ExperienceTimelineCard({
               src={logo}
               alt={`${company} logo`}
               className="exp-card__logo"
+              loading="lazy"
+              decoding="async"
+              width="44"
+              height="44"
             />
           )}
           <div className="exp-card__meta">

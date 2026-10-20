@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useId } from "react"
 
 export function EducationCard({
   institute,
@@ -10,6 +10,7 @@ export function EducationCard({
   type = "cgpa" // "cgpa" or "percentage"
 }) {
   const [hov, setHov] = useState(false)
+  const gradId = `grad-${useId().replace(/:/g, "")}`
   const [progress, setProgress] = useState(0)
 
   const max = type === "cgpa" ? 10 : 100
@@ -27,8 +28,6 @@ export function EducationCard({
         setProgress(i)
       }, 10)
       return () => clearInterval(interval)
-    } else {
-      setProgress(0)
     }
   }, [hov, percent])
 
@@ -42,17 +41,17 @@ export function EducationCard({
   return (
     <div
       onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
+      onMouseLeave={() => { setHov(false); setProgress(0) }}
       style={{
-        background: hov ? "rgba(12,20,42,0.97)" : "rgba(8,14,30,0.85)",
+        background: hov ? "rgb(var(--surface-rgb) / 0.97)" : "rgb(var(--surface-rgb) / 0.85)",
         border: hov
-          ? "1px solid rgba(56,189,248,0.4)"
-          : "1px solid rgba(56,189,248,0.1)",
+          ? "1px solid rgb(var(--cyan-rgb) / 0.4)"
+          : "1px solid rgb(var(--cyan-rgb) / 0.1)",
         borderRadius: 18,
         padding: "24px",
         boxShadow: hov
-          ? "0 0 40px rgba(56,189,248,0.15), 0 20px 60px rgba(0,0,0,0.8)"
-          : "0 6px 24px rgba(0,0,0,0.4)",
+          ? "0 0 40px rgb(var(--cyan-rgb) / 0.15), 0 20px 60px rgb(var(--shadow-rgb) / calc(0.8 * var(--shadow-k)))"
+          : "0 6px 24px rgb(var(--shadow-rgb) / calc(0.4 * var(--shadow-k)))",
         transform: hov
           ? "translateY(-6px) scale(1.02)"
           : "translateY(0)",
@@ -66,15 +65,15 @@ export function EducationCard({
         position: "absolute",
         top: 0, left: 0, right: 0, height: 2,
         background: hov
-          ? "linear-gradient(90deg,#38bdf8,#2dd4bf,#818cf8)"
-          : "linear-gradient(90deg,rgba(56,189,248,0.15),transparent)"
+          ? "linear-gradient(90deg,var(--cyan),var(--teal),var(--indigo))"
+          : "linear-gradient(90deg,rgb(var(--cyan-rgb) / 0.15),transparent)"
       }} />
 
       {/* Institute */}
       <h3 style={{
         fontSize: 12,
         letterSpacing: 1.5,
-        color: hov ? "#e2e8f0" : "#94a3b8",
+        color: hov ? "var(--text-primary)" : "var(--text-muted)",
         marginBottom: 6,
       }}>
         {institute}
@@ -84,7 +83,7 @@ export function EducationCard({
       <p style={{
         fontSize: 15,
         fontWeight: 600,
-        color: "#38bdf8",
+        color: "var(--cyan)",
         marginBottom: 6,
       }}>
         {degree}
@@ -97,7 +96,7 @@ export function EducationCard({
         rel="noreferrer"
         style={{
           fontSize: 13,
-          color: "#64748b",
+          color: "var(--text-muted)",
           textDecoration: "none",
           display: "inline-block",
           marginBottom: 16,
@@ -109,7 +108,7 @@ export function EducationCard({
       {/* Divider */}
       <div style={{
         height: 1,
-        background: "linear-gradient(90deg,rgba(56,189,248,0.2),transparent)",
+        background: "linear-gradient(90deg,rgb(var(--cyan-rgb) / 0.2),transparent)",
         marginBottom: 18,
       }} />
 
@@ -117,11 +116,13 @@ export function EducationCard({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        flexWrap: "wrap",
+        gap: 12,
       }}>
         {/* Batch */}
         <div>
-          <div style={{ fontSize: 10, color: "#475569" }}>BATCH</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "#cbd5e1" }}>
+          <div style={{ fontSize: 12, color: "var(--text-dim)" }}>BATCH</div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--text-soft)" }}>
             {batch}
           </div>
         </div>
@@ -131,7 +132,7 @@ export function EducationCard({
           <svg height="80" width="80">
             {/* Background */}
             <circle
-              stroke="rgba(71,85,105,0.3)"
+              stroke="rgb(var(--text-dim-rgb) / 0.3)"
               fill="transparent"
               strokeWidth={stroke}
               r={normalizedRadius}
@@ -141,7 +142,7 @@ export function EducationCard({
 
             {/* Progress */}
             <circle
-              stroke="url(#grad)"
+              stroke={`url(#${gradId})`}
               fill="transparent"
               strokeWidth={stroke}
               strokeDasharray={`${circumference} ${circumference}`}
@@ -157,9 +158,9 @@ export function EducationCard({
 
             {/* Gradient */}
             <defs>
-              <linearGradient id="grad">
-                <stop offset="0%" stopColor="#38bdf8" />
-                <stop offset="100%" stopColor="#2dd4bf" />
+              <linearGradient id={gradId}>
+                <stop offset="0%" stopColor="var(--cyan)" />
+                <stop offset="100%" stopColor="var(--teal)" />
               </linearGradient>
             </defs>
           </svg>
@@ -175,13 +176,13 @@ export function EducationCard({
             <div style={{
               fontSize: 16,
               fontWeight: 800,
-              color: "#e2e8f0"
+              color: "var(--text-primary)"
             }}>
               {score}
             </div>
             <div style={{
-              fontSize: 9,
-              color: "#64748b"
+              fontSize: 12,
+              color: "var(--text-muted)"
             }}>
               {type === "cgpa" ? "CGPA" : "%"}
             </div>
@@ -198,7 +199,7 @@ export function EducationCard({
         height: 100,
         borderRadius: "50%",
         background: hov
-          ? "radial-gradient(circle, rgba(56,189,248,0.15), transparent)"
+          ? "radial-gradient(circle, rgb(var(--cyan-rgb) / 0.15), transparent)"
           : "transparent",
         transition: "all 0.4s"
       }} />

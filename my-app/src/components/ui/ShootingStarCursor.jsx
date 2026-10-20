@@ -1,7 +1,12 @@
 import { useEffect } from "react"
 
-function ShootingStarCursor() {
+function ShootingStarCursor({ enabled = true, theme = "dark" }) {
   useEffect(() => {
+    if (!enabled) return
+    const rgb = theme === "light" ? "3, 105, 161" : "0, 255, 255"
+    const glowRgb = theme === "light" ? "3, 105, 161" : "0, 200, 255"
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return
+
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
 
@@ -25,7 +30,7 @@ function ShootingStarCursor() {
     let points = []
     const maxPoints = 50
 
-    // ✅ NEW: particles
+    const maxParticles = 150
     let particles = []
 
     const move = (e) => {
@@ -45,8 +50,8 @@ function ShootingStarCursor() {
 
       if (points.length > maxPoints) points.shift()
 
-      // ✅ spawn particles
-      for (let i = 0; i < 3; i++) {
+      // spawn particles
+      for (let i = 0; i < 3 && particles.length < maxParticles; i++) {
         particles.push({
           x: mouse.x,
           y: mouse.y,
@@ -58,9 +63,11 @@ function ShootingStarCursor() {
       }
 
       prev = { ...mouse }
+
+      if (!rafId) rafId = requestAnimationFrame(draw)
     }
 
-    window.addEventListener("mousemove", move)
+    window.addEventListener("mousemove", move, { passive: true })
 
     function draw() {
       ctx.globalCompositeOperation = "destination-out"
@@ -69,7 +76,7 @@ function ShootingStarCursor() {
 
       ctx.globalCompositeOperation = "lighter"
 
-      // 🔥 TRAIL
+      // TRAIL
       for (let i = 0; i < points.length - 1; i++) {
         const p = points[i]
         const next = points[i + 1]
@@ -77,7 +84,7 @@ function ShootingStarCursor() {
         const alpha = p.life
         const widthScale = 6 + p.speed * 0.15
 
-        ctx.strokeStyle = `rgba(0, 255, 255, ${alpha * 0.2})`
+        ctx.strokeStyle = `rgba(${rgb}, ${alpha * 0.2})`
         ctx.lineWidth = widthScale * alpha
 
         ctx.beginPath()
@@ -88,21 +95,21 @@ function ShootingStarCursor() {
         p.life *= 0.94
       }
 
-      // 🔥 PARTICLES
-      particles.forEach((p, i) => {
+      // PARTICLES
+      for (const p of particles) {
         p.x += p.vx
         p.y += p.vy
         p.life *= 0.92
 
-        ctx.fillStyle = `rgba(0, 255, 255, ${p.life})`
+        ctx.fillStyle = `rgba(${rgb}, ${p.life})`
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
         ctx.fill()
 
-        if (p.life < 0.05) particles.splice(i, 1)
-      })
+      }
+      particles = particles.filter((p) => p.life >= 0.05)
 
-      // 🔥 GLOW
+      // GLOW
       const head = points[points.length - 1]
       if (head) {
         const glow = ctx.createRadialGradient(
@@ -110,7 +117,7 @@ function ShootingStarCursor() {
           head.x, head.y, 45
         )
 
-        glow.addColorStop(0.2, "rgba(0,200,255,0.2)")
+        glow.addColorStop(0.2, `rgba(${glowRgb}, 0.2)`)
         glow.addColorStop(1, "transparent")
 
         ctx.fillStyle = glow
@@ -121,10 +128,17 @@ function ShootingStarCursor() {
 
       ctx.globalCompositeOperation = "source-over"
 
-      requestAnimationFrame(draw)
+      // drop faded trail points, and stop the loop once nothing is left to animate
+      points = points.filter((p) => p.life >= 0.02)
+      if (points.length || particles.length) {
+        rafId = requestAnimationFrame(draw)
+      } else {
+        ctx.clearRect(0, 0, width, height)
+        rafId = 0
+      }
     }
 
-    draw()
+    let rafId = 0
 
     const resize = () => {
       width = window.innerWidth
@@ -138,9 +152,10 @@ function ShootingStarCursor() {
     return () => {
       window.removeEventListener("mousemove", move)
       window.removeEventListener("resize", resize)
+      if (rafId) cancelAnimationFrame(rafId)
       canvas.remove()
     }
-  }, [])
+  }, [enabled, theme])
 
   return null
 }
